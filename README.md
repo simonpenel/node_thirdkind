@@ -1,15 +1,15 @@
 # node_thirdkind
 a node server for thirdkind
 
-#Node creation
+# Node creation
 mkdir thirdkind_app
 
 cd thirdkind_app/
 
 npm init
 
-#Node installation
+# Node installation
 npm installation
 
-#Launch server
+# Launch server
 npm start
