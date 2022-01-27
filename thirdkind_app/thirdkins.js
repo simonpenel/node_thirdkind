@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
         cb(null, "uploads")
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + "-" + Date.now()+".jpg")
+      cb(null, file.fieldname + "-" + Date.now()+".xml")
     }
   })
 
@@ -32,7 +32,7 @@ var upload = multer({
     fileFilter: function (req, file, cb){
 
         // Set the filetypes, it is optional
-        var filetypes = /jpeg|jpg|png/;
+        var filetypes = /xml|recphyloxml|phyloxml/;
         var mimetype = filetypes.test(file.mimetype);
 
         var extname = filetypes.test(path.extname(
@@ -56,35 +56,73 @@ var upload = multer({
 app.get("/",function(req,res){
     res.render("Signup");
 })
+app.post("/uploadProfilePicture",function (req, res, next) {
+
+    // Error MiddleWare for multer file upload, so if any
+    // error occurs, the image would not be uploaded!
+    upload(req,res,function(err) {
+
+        if(err) {
+
+            // ERROR occured (here it can be occured due
+            // to uploading image of size greater than
+            // 1MB or uploading different file type)
+            res.send(err)
+        }
+        else {
+            const { exec } = require("child_process");
+            // SUCCESS, image successfully uploaded
+
+            res.send("Success, Image uploaded!")
+            console.log(req.file.filename);
 
 
-const { exec } = require("child_process");
+            exec("/home/simon/.cargo/bin/thirdkind -f uploads/"+req.file.filename, (error, stdout, stderr) => {
+              console.log(stdout);
+              console.log(stderr);
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return;
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    return;
+                }
+                console.log(`stdout: ${stdout}`);
+            });
 
-exec("ls -la", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-});
 
-exec("/home/simon/.cargo/bin/thirdkind -h ", (error, stdout, stderr) => {
-  console.log(stdout);
-  console.log(stderr);
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-});
+        }
+    })
+})
+
+// const { exec } = require("child_process");
+//
+// exec("ls -la", (error, stdout, stderr) => {
+//     if (error) {
+//         console.log(`error: ${error.message}`);
+//         return;
+//     }
+//     if (stderr) {
+//         console.log(`stderr: ${stderr}`);
+//         return;
+//     }
+//     console.log(`stdout: ${stdout}`);
+// });
+
+// exec("/home/simon/.cargo/bin/thirdkind -h ", (error, stdout, stderr) => {
+//   console.log(stdout);
+//   console.log(stderr);
+//     if (error) {
+//         console.log(`error: ${error.message}`);
+//         return;
+//     }
+//     if (stderr) {
+//         console.log(`stderr: ${stderr}`);
+//         return;
+//     }
+//     console.log(`stdout: ${stdout}`);
+// });
 
 
 
