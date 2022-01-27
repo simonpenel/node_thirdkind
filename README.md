@@ -4,7 +4,7 @@ a node server for thirdkind
 # Node creation
 mkdir thirdkind_app
 
-cd thirdkind_app/
+cd thirdkind_app
 
 npm init
 
