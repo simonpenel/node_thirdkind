@@ -7,7 +7,7 @@ const port = 3000
 // View Engine Setup
 app.set("views",path.join(__dirname,"views"))
 app.set("view engine","ejs")
-
+app.use(express.static(path.join(__dirname, 'public')));
 // var upload = multer({ dest: "Upload_folder_name" })
 // If you do not want to use diskStorage then uncomment it
 
@@ -32,18 +32,18 @@ var upload = multer({
     fileFilter: function (req, file, cb){
 
         // Set the filetypes, it is optional
-        var filetypes = /xml|recphyloxml|phyloxml/;
+        var filetypes = /recphyloxml|phyloxml|xml/;
         var mimetype = filetypes.test(file.mimetype);
 
         var extname = filetypes.test(path.extname(
                     file.originalname).toLowerCase());
 
-        if (mimetype && extname) {
+        // if (mimetype && extname) {
             return cb(null, true);
-        }
+        // }
 
-        cb("Error: File upload only supports the "
-                + "following filetypes - " + filetypes);
+        // cb("Error: File upload only supports the "
+        //         + "following filetypes - " + filetypes);
       }
 
 // mypic is the name of file attribute
@@ -73,11 +73,11 @@ app.post("/uploadProfilePicture",function (req, res, next) {
             const { exec } = require("child_process");
             // SUCCESS, image successfully uploaded
 
-            res.send("Success, Image uploaded!")
-            console.log(req.file.filename);
+            // res.send("Success, Image uploaded!")
+            // console.log(req.file.filename);
 
 
-            exec("/home/simon/.cargo/bin/thirdkind -f uploads/"+req.file.filename, (error, stdout, stderr) => {
+            exec("/home/simon/.cargo/bin/thirdkind -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg", (error, stdout, stderr) => {
               console.log(stdout);
               console.log(stderr);
                 if (error) {
@@ -89,6 +89,7 @@ app.post("/uploadProfilePicture",function (req, res, next) {
                     return;
                 }
                 console.log(`stdout: ${stdout}`);
+                res.render("Display" ,{ path: req.file.filename , message: 'Hello there!'});
             });
 
 
