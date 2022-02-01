@@ -2,23 +2,24 @@
 <html>
 
 <head>
-    <title>Display</title>
+    <title>Error</title>
 </head>
 
 <body>
-    <h1>Display</h1>
-    <img src="<%= path %>.svg">
-<%= path %>
+    <h1>Error</h1>
+<%= message %>
+
+
 <form action="/uploadPreferences"
   enctype="multipart/form-data" method="POST">
-
     <input type="texte" name="uploaded" value="<%= path %>"/> <br>
     <input type="checkbox" id="landcsape" name="landscape">
     <label for="landcsape">landcsape</label>
     <input type="checkbox" id="freeliving" name="freeliving">
-    <label for="free">free living</label>
+    <label for="freeliving">free living</label>
     <input type="submit" value="submit">
 </form>
+
 </body>
 
 </html>

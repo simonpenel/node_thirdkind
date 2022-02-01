@@ -70,24 +70,34 @@ app.post("/uploadProfilePicture",function (req, res, next) {
             res.send(err)
         }
         else {
+          console.log("LANDSCAPE:");
+          // console.log(res);
+              console.log(req.body.landscape);
             const { exec } = require("child_process");
             // SUCCESS, image successfully uploaded
 
             // res.send("Success, Image uploaded!")
             // console.log(req.file.filename);
+            var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
+            if (req.body.landscape == "on") {
+              commande_thirdkind = commande_thirdkind + " -L";
+            }
+            if (req.body.freeliving == "on") {
+              commande_thirdkind = commande_thirdkind + " -e";
+            }
 
-
-            exec("/home/simon/.cargo/bin/thirdkind -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg", (error, stdout, stderr) => {
+            exec(commande_thirdkind, (error, stdout, stderr) => {
               console.log(stdout);
               console.log(stderr);
                 if (error) {
-                    console.log(`error: ${error.message}`);
-                    return;
+                    console.log(`error: ${error.message}`);                // if (stderr) {
+                    res.render("Error" ,{ message: error.message,path: req.file.filename });
+
                 }
-                if (stderr) {
-                    console.log(`stderr: ${stderr}`);
-                    return;
-                }
+                // if (stderr) {
+                //     console.log(`stderr: ${stderr}`);
+                //     return;
+                // }
                 console.log(`stdout: ${stdout}`);
                 res.render("Display" ,{ path: req.file.filename , message: 'Hello there!'});
             });
@@ -97,6 +107,58 @@ app.post("/uploadProfilePicture",function (req, res, next) {
     })
 })
 
+app.post("/uploadPreferences",function (req, res, next) {
+
+    // Error MiddleWare for multer file upload, so if any
+    // error occurs, the image would not be uploaded!
+    upload(req,res,function(err) {
+
+        if(err) {
+
+            // ERROR occured (here it can be occured due
+            // to uploading image of size greater than
+            // 1MB or uploading different file type)
+            res.send(err)
+        }
+        else {
+
+          console.log(req);
+              console.log(req.body.freeliving);
+            const { exec } = require("child_process");
+            // SUCCESS, image successfully uploaded
+            inputfile = req.body.uploaded;
+            // res.send("Success, Image uploaded!")
+            // console.log(req.file.filename);
+            var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind -f uploads/"+inputfile+ " -o public/"+inputfile+".svg"
+            if (req.body.landscape == "on") {
+              commande_thirdkind = commande_thirdkind + " -L";
+            }
+            if (req.body.freeliving == "on") {
+              commande_thirdkind = commande_thirdkind + " -e";
+            }
+
+
+
+            exec(commande_thirdkind, (error, stdout, stderr) => {
+              console.log(stdout);
+              console.log(stderr);
+                if (error) {
+                    console.log(`error: ${error.message}`);                // if (stderr) {
+                    res.render("Error" ,{ message: error.message, path: inputfile});
+
+                }
+                // if (stderr) {
+                //     console.log(`stderr: ${stderr}`);
+                //     return;
+                // }
+                console.log(`stdout: ${stdout}`);
+                res.render("Display" ,{ path: inputfile , message: 'Hello there!'});
+            });
+
+
+        }
+    })
+})
 // const { exec } = require("child_process");
 //
 // exec("ls -la", (error, stdout, stderr) => {
