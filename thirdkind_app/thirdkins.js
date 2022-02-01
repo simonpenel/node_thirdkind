@@ -1,11 +1,13 @@
 
 const express = require('express')
+const util = require('util')
 const app = express()
 const path = require("path")
 const multer = require("multer")
 const port = 3000
 // View Engine Setup
 app.set("views",path.join(__dirname,"views"))
+app.set("partials",path.join(__dirname,"partials"))
 app.set("view engine","ejs")
 app.use(express.static(path.join(__dirname, 'public')));
 // var upload = multer({ dest: "Upload_folder_name" })
@@ -80,12 +82,19 @@ app.post("/uploadProfilePicture",function (req, res, next) {
             // console.log(req.file.filename);
             var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
             if (req.body.landscape == "on") {
-              commande_thirdkind = commande_thirdkind + " -L";
+              commande_thirdkind = commande_thirdkind + " -L ";
             }
             if (req.body.freeliving == "on") {
-              commande_thirdkind = commande_thirdkind + " -e";
+              commande_thirdkind = commande_thirdkind + " -e ";
+            }
+            if (req.body.speciesnode == "on") {
+              commande_thirdkind = commande_thirdkind + " -I ";
+            }
+            if (req.body.genenode == "on") {
+              commande_thirdkind = commande_thirdkind + " -i ";
             }
 
+        console.log(commande_thirdkind);
             exec(commande_thirdkind, (error, stdout, stderr) => {
               console.log(stdout);
               console.log(stderr);
@@ -99,7 +108,7 @@ app.post("/uploadProfilePicture",function (req, res, next) {
                 //     return;
                 // }
                 console.log(`stdout: ${stdout}`);
-                res.render("Display" ,{ path: req.file.filename , message: 'Hello there!'});
+                res.render("Display" ,{ path: req.file.filename ,speciespolice:"25", genepolice:"12", message: 'Hello there!'});
             });
 
 
@@ -121,9 +130,10 @@ app.post("/uploadPreferences",function (req, res, next) {
             res.send(err)
         }
         else {
-
-          console.log(req);
-              console.log(req.body.freeliving);
+          console.log("REPONSE");
+          console.log(req.body);
+          console.log(req.body.freeliving);
+          console.log(req.speciespolice);
             const { exec } = require("child_process");
             // SUCCESS, image successfully uploaded
             inputfile = req.body.uploaded;
@@ -137,8 +147,23 @@ app.post("/uploadPreferences",function (req, res, next) {
               commande_thirdkind = commande_thirdkind + " -e";
             }
 
+            if (req.body.speciesnode == "on") {
+              commande_thirdkind = commande_thirdkind + " -I";
+            }
+            if (req.body.genenode == "on") {
+              commande_thirdkind = commande_thirdkind + " -i";
+            }
 
+        console.log(commande_thirdkind);
+            if (req.body.speciespolice == undefined) {
+              req.body.speciespolice = 20;
+            }
+            commande_thirdkind = commande_thirdkind + " -D "+ req.body.speciespolice;
 
+            if (req.body.genepolice == undefined) {
+              req.body.genepolice = 12;
+            }
+            commande_thirdkind = commande_thirdkind + " -d "+ req.body.genepolice;
             exec(commande_thirdkind, (error, stdout, stderr) => {
               console.log(stdout);
               console.log(stderr);
@@ -152,7 +177,8 @@ app.post("/uploadPreferences",function (req, res, next) {
                 //     return;
                 // }
                 console.log(`stdout: ${stdout}`);
-                res.render("Display" ,{ path: inputfile , message: 'Hello there!'});
+                res.render("Display" ,{ path: inputfile, speciespolice:req.body.speciespolice, genepolice:req.body.genepolice,
+                  message: 'Hello there!'});
             });
 
 
