@@ -7,6 +7,9 @@
 
 <body>
     <h1>Thirdkind</h1>
+<%= message.genepolice %>
+<%= message.genenode %>
+    <a href ="/">Change input file</a>
     <form action="/uploadPreferences"
       enctype="multipart/form-data" method="POST">
     <input type="hidden" name="uploaded" value="<%= path %>"/> <br>
@@ -20,7 +23,7 @@
         <input type="checkbox" id="speciesnode" name="speciesnode">
         <label for="speciesnode">Internal species nodes</label>
 
-        <input type="checkbox" id="genenode" name="genenode">
+        <input type="checkbox" id="genenode" name="genenode" <%= message.genenode %> >
         <label for="genenode">Internal gene nodes</label> <br>
 
         <label for="speciespolice">Species police</label>

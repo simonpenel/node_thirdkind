@@ -152,6 +152,7 @@ app.post("/uploadPreferences",function (req, res, next) {
             }
             if (req.body.genenode == "on") {
               commande_thirdkind = commande_thirdkind + " -i";
+              req.body.genenode = "checked"
             }
 
         console.log(commande_thirdkind);
@@ -178,7 +179,7 @@ app.post("/uploadPreferences",function (req, res, next) {
                 // }
                 console.log(`stdout: ${stdout}`);
                 res.render("Display" ,{ path: inputfile, speciespolice:req.body.speciespolice, genepolice:req.body.genepolice,
-                  message: 'Hello there!'});
+                  message: req.body});
             });
 
 
@@ -216,5 +217,6 @@ app.post("/uploadPreferences",function (req, res, next) {
 
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Example app listening on port ${port}`);
+    console.log(`Server http://localhost:${port}`);
 })
