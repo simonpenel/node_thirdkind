@@ -7,32 +7,40 @@
 
 <body>
     <h1>Thirdkind</h1>
-<%= message.genepolice %>
-<%= message.genenode %>
     <a href ="/">Change input file</a>
     <form action="/uploadPreferences"
       enctype="multipart/form-data" method="POST">
     <input type="hidden" name="uploaded" value="<%= path %>"/> <br>
 
-        <input type="checkbox" id="landcsape" name="landscape">
+        <input type="checkbox" id="landcsape" name="landscape" <%= options.landscape %> >
         <label for="landcsape">Landscape</label>
 
-        <input type="checkbox" id="freeliving" name="freeliving">
+        <input type="checkbox" id="freeliving" name="freeliving" <%= options.freeliving %> >
         <label for="freeliving">Free living</label><br>
 
-        <input type="checkbox" id="speciesnode" name="speciesnode">
+        <input type="checkbox" id="speciesnode" name="speciesnode" <%= options.speciesnode %> >
         <label for="speciesnode">Internal species nodes</label>
 
-        <input type="checkbox" id="genenode" name="genenode" <%= message.genenode %> >
+        <input type="checkbox" id="genenode" name="genenode" <%= options.genenode %> >
         <label for="genenode">Internal gene nodes</label> <br>
 
+        <input type="checkbox" id="usebrlength" name="usebrlength" <%= options.usebrlength %> >
+        <label for="speciesnode">Use branch length</label>
+        <input type="text" name="facbrlength" minlength="1" maxlength="3" size=1 value="<%= options.facbrlength %>"/><br>
+
+
+
         <label for="speciespolice">Species police</label>
-        <input type="text" name="speciespolice" minlength="1" maxlength="3" size=1 value="<%= speciespolice %>"/>
+        <input type="text" name="speciespolice" minlength="1" maxlength="3" size=1 value="<%= options.speciespolice %>"/>
         <label for="speciespolice">Gene police</label>
-        <input type="text" name="genepolice" minlength="1" maxlength="3" size=1 value="<%= genepolice %>"/> <br>
+        <input type="text" name="genepolice" minlength="1" maxlength="3" size=1 value="<%= options.genepolice %>"/> <br>
         <input type="submit" value="submit">
     </form>
-    <img src="<%= path %>.svg">
+    <!-- <a href="<%= path %>.svg">Download svg</a> <br>
+
+    <img src="<%= path %>.svg"> -->
+
+    <%- affichage %>
 </body>
 
 </html>
