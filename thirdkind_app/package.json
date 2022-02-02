@@ -4,7 +4,7 @@
   "description": "A node server for thirdkind",
   "main": "index.js",
   "scripts": {
-    "start": "node thirdkins.js"
+    "start": "node thirdkind.js"
   },
   "repository": {
     "type": "git",
