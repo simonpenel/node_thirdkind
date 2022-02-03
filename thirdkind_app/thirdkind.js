@@ -157,7 +157,7 @@ app.post("/uploadPreferences",function (req, res, next) {
               if (req.body.facbrlength == "") {
                 req.body.facbrlength = "1.0";
               }
-              commande_thirdkind = commande_thirdkind + " -l "+req.body.facbrlength ;
+              commande_thirdkind = commande_thirdkind + " -B -l "+req.body.facbrlength ;
               req.body.usebrlength = "checked"
             }
 
