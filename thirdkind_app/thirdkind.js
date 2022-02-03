@@ -165,7 +165,7 @@ app.post("/uploadPreferences",function (req, res, next) {
               if (req.body.thrtransfert == "") {
                 req.body.thrtransfert = "1";
               }
-              commande_thirdkind = commande_thirdkind + " -t "+req.body.thrtransfert ;
+              commande_thirdkind = commande_thirdkind + " -J  -t "+req.body.thrtransfert ;
               req.body.usetransfert = "checked"
             }
 
