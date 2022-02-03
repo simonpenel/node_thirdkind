@@ -100,7 +100,7 @@ app.post("/uploadProfilePicture",function (req, res, next) {
                   var stats = fs.statSync("public/"+req.file.filename+".svg");
                   var fileSizeInBytes = stats.size;
                   if (fileSizeInBytes > 100000) {
-                    affichage = 'The SVG is very big. Download it <a href='+req.file.filename+'.svg>here</a>';
+                    affichage = 'The SVG is very big. Download it <a href='+req.file.filename+'.svg target=_blank>here</a>';
                   }
 
 
@@ -151,14 +151,24 @@ app.post("/uploadPreferences",function (req, res, next) {
 
             console.log("DEBUG ");
             console.log(req.body.facbrlength);
-            if (req.body.facbrlength == "") {
-              req.body.facbrlength = "1.0";
-            }
+
 
             if (req.body.usebrlength == "on") {
+              if (req.body.facbrlength == "") {
+                req.body.facbrlength = "1.0";
+              }
               commande_thirdkind = commande_thirdkind + " -l "+req.body.facbrlength ;
               req.body.usebrlength = "checked"
             }
+
+            if (req.body.usetransfert == "on") {
+              if (req.body.thrtransfert == "") {
+                req.body.thrtransfert = "1";
+              }
+              commande_thirdkind = commande_thirdkind + " -t "+req.body.thrtransfert ;
+              req.body.usetransfert = "checked"
+            }
+
 
 
         console.log(commande_thirdkind);
@@ -188,7 +198,7 @@ app.post("/uploadPreferences",function (req, res, next) {
                 var stats = fs.statSync("public/"+inputfile+".svg");
                 var fileSizeInBytes = stats.size;
                 if (fileSizeInBytes > 100000) {
-                  affichage = 'The SVG is very big. Download it <a href='+inputfile+'.svg>here</a>';
+                  affichage = 'The SVG is very big. Download it <a href='+inputfile+'.svg target=_blank>here</a>';
                 }
                 res.render("Display" ,{ path: inputfile, speciespolice:req.body.speciespolice, genepolice:req.body.genepolice,
                   options: req.body, affichage: affichage});

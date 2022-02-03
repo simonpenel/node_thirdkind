@@ -6,7 +6,6 @@
 
 <body>
 <%- include ("../partials/header") %>
-    <h2>Display</h2>
     <a href ="/">Change input file</a>
     <form action="/uploadPreferences"
       enctype="multipart/form-data" method="POST">
@@ -28,6 +27,9 @@
         <label for="speciesnode">Use branch length</label>
         <input type="text" name="facbrlength" minlength="1" maxlength="3" size=1 value="<%= options.facbrlength %>"/><br>
 
+        <input type="checkbox" id="usetransfert" name="usetransfert" <%= options.usetransfert %> >
+        <label for="usetransfert">Redudant transfert mode</label>
+        <input type="text" name="thrtransfert" minlength="1" maxlength="3" size=1 value="<%= options.thrtransfert %>"/><br>
 
 
         <label for="speciespolice">Species police</label>
