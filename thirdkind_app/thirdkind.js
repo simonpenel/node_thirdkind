@@ -96,6 +96,8 @@ app.post("/uploadProfilePicture",function (req, res, next) {
                   console.log(`stdout: ${stdout}`);
                   req.body.speciespolice="25";
                   req.body.genepolice="12";
+                  req.body.width="1.0";
+                  req.body.height="1.0";
                   var affichage =    "<img src="+req.file.filename+".svg >" ;
                   var stats = fs.statSync("public/"+req.file.filename+".svg");
                   var fileSizeInBytes = stats.size;
@@ -163,7 +165,7 @@ app.post("/uploadPreferences",function (req, res, next) {
 
             if (req.body.usetransfert == "on") {
               if (req.body.thrtransfert == "") {
-                req.body.thrtransfert = "1";
+                req.body.thrtransfert = "0";
               }
               commande_thirdkind = commande_thirdkind + " -J  -t "+req.body.thrtransfert ;
               req.body.usetransfert = "checked"
@@ -173,7 +175,7 @@ app.post("/uploadPreferences",function (req, res, next) {
 
         console.log(commande_thirdkind);
             if (req.body.speciespolice == undefined) {
-              req.body.speciespolice = 20;
+              req.body.speciespolice = 25;
             }
             commande_thirdkind = commande_thirdkind + " -D "+ req.body.speciespolice;
 
@@ -181,6 +183,27 @@ app.post("/uploadPreferences",function (req, res, next) {
               req.body.genepolice = 12;
             }
             commande_thirdkind = commande_thirdkind + " -d "+ req.body.genepolice;
+
+            if (req.body.width == undefined) {
+              req.body.width = 1.0;
+            }
+            commande_thirdkind = commande_thirdkind + " -W "+ req.body.width;
+
+
+            if (req.body.height == undefined) {
+                req.body.height = 1.0;
+            }
+            commande_thirdkind = commande_thirdkind + " -H "+ req.body.height;
+
+
+
+
+
+
+
+
+
+
             exec(commande_thirdkind, (error, stdout, stderr) => {
               console.log(stdout);
               console.log(stderr);

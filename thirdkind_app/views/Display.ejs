@@ -2,12 +2,40 @@
 <html>
 <head>
 <%- include ("../partials/head") %>
+
+<script type="text/javascript">
+  function resetForm()
+  {
+     var form = document.forms['options'];
+     form.width.value = "1.0";
+     form.height.value = "1.0";
+     form.speciespolice.value = "25";
+     form.genepolice.value = "12";
+     form.thrtransfert.value = "0";
+     form.facbrlength.value = "1.0";
+
+     form.usebrlength.value = "";
+     form.genenode.value = "";
+     form.speciesnode.value = "";
+    form.usetransfert.value = "";
+    document.getElementById("speciesnode").checked = false;
+    document.getElementById("genenode").checked = false;
+    document.getElementById("landcsape").checked = false;
+    document.getElementById("usetransfert").checked = false;
+
+  }
+</script>
+
 </head>
 
 <body>
 <%- include ("../partials/header") %>
-    <a href ="/">Change input file</a>
-    <form action="/uploadPreferences"
+
+<i class="bi bi-arrow-return-left"></i>
+    <a href ="/"> <span class="glyphicon glyphicon glyphicon-home"></span> Change input file</a>
+<!-- <i class="bi bi-arrow-return-left">left</i>
+    <a href ="/">Change input file</a> -->
+    <form action="/uploadPreferences" name="options"
       enctype="multipart/form-data" method="POST">
     <input type="hidden" name="uploaded" value="<%= path %>"/> <br>
 
@@ -36,7 +64,16 @@
         <input type="text" name="speciespolice" minlength="1" maxlength="3" size=1 value="<%= options.speciespolice %>"/>
         <label for="speciespolice">Gene police</label>
         <input type="text" name="genepolice" minlength="1" maxlength="3" size=1 value="<%= options.genepolice %>"/> <br>
+
+        <label for="width">Width scaling</label>
+        <input type="text" name="width" minlength="1" maxlength="3" size=1 value="<%= options.width %>"/>
+
+        <label for="height">Height scaling</label>
+        <input type="text" name="height" minlength="1" maxlength="3" size=1 value="<%= options.height %>"/>
+        <br>
+
         <input type="submit" value="submit">
+        <input type="button" value="reset" onClick="resetForm(); return false;">
     </form>
     <!-- <a href="<%= path %>.svg">Download svg</a> <br>
 
