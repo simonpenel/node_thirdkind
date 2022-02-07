@@ -22,19 +22,43 @@ Contact :
 <a href="https://lbbe.univ-lyon1.fr/fr/annuaire-des-membres/penel-simon">
   simon.penel at univ-lyon1.fr</a>
 
-    <h2>Single File Upload (recPhyloXML format)</h2>
+    <h2>Single File Upload : 2-level reconciliation </h2>
 
-    <form action="/uploadProfilePicture"
+    <form action="/uploadOneXML"
       enctype="multipart/form-data" method="POST">
 
         <span>Upload a recPhyloXML file:</span>
-        <input type="file" name="mypic" required/> <br><br>
+        <input type="file" name="mypic" required/> <br>
         <!-- <input type="checkbox" id="landcsape" name="landscape"> -->
         <!-- <label for="landcsape">landcsape</label> -->
         <label for="freeliving">Check this box if the reconciliation presents "Free living"
            organisms</label>
         <input type="checkbox" id="freeliving" name="freeliving">
-        <br><br>
+        <br>
+        <input type="submit" value="Generate SVG">
+    </form>
+    <br><br>
+    <h2>Two Nested Files Upload : 3-level reconciliation</h2>
+
+    <form action="/uploadTwoXML"
+      enctype="multipart/form-data" method="POST">
+
+      <!-- <label for='file'>Select your image:</label>
+      <input type='file' accept='image/*' name='uploadedImages' multiple/>
+      <span class='hint'>Supported files: jpg, jpeg, png.</span>
+      <input type="submit" value="uploading_img"> -->
+
+
+        <span>Upload Symbiote-Host reconciliation:</span><br>
+        <input type="file" name="mypic_2" required/><br>
+        <span>Upload Gene-Symbiote reconciliation:</span><br>
+        <input type="file" name="mypic_2" required/><br>
+        <!-- <input type="checkbox" id="landcsape" name="landscape"> -->
+        <!-- <label for="landcsape">landcsape</label> -->
+        <label for="freeliving">Check this box if the reconciliation presents "Free living"
+           organisms</label>
+        <input type="checkbox" id="freeliving" name="freeliving">
+        <br>
         <input type="submit" value="Generate SVG">
     </form>
 </body>

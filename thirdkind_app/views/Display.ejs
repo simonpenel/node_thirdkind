@@ -37,7 +37,8 @@
     <a href ="/">Change input file</a> -->
     <form action="/uploadPreferences" name="options"
       enctype="multipart/form-data" method="POST">
-    <input type="hidden" name="uploaded" value="<%= path %>"/> <br>
+    <input  name="uploaded1" value="<%= path1 %>"/> <br>
+    <input  name="uploaded2" value="<%= path2 %>"/> <br>
 
         <input type="checkbox" id="landcsape" name="landscape" <%= options.landscape %> >
         <label for="landcsape">Landscape</label>
@@ -75,9 +76,6 @@
         <input type="submit" value="submit">
         <input type="button" value="reset" onClick="resetForm(); return false;">
     </form>
-    <!-- <a href="<%= path %>.svg">Download svg</a> <br>
-
-    <img src="<%= path %>.svg"> -->
 
     <%- affichage %>
 </body>
