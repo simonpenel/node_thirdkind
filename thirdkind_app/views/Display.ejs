@@ -37,8 +37,8 @@
     <a href ="/">Change input file</a> -->
     <form action="/uploadPreferences" name="options"
       enctype="multipart/form-data" method="POST">
-    <input  name="uploaded1" value="<%= path1 %>"/> <br>
-    <input  name="uploaded2" value="<%= path2 %>"/> <br>
+    <input type = "hidden" name="uploaded1" value="<%= path1 %>"/> <br>
+    <input type = "hidden" name="uploaded2" value="<%= path2 %>"/> <br>
 
         <input type="checkbox" id="landcsape" name="landscape" <%= options.landscape %> >
         <label for="landcsape">Landscape</label>

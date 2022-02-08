@@ -229,10 +229,14 @@ app.post("/uploadPreferences",function (req, res, next) {
             inputfile1 = req.body.uploaded1;
             inputfile2 = req.body.uploaded2;
 
-            var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind  -F recphylo -f uploads/"+inputfile1+ " -o public/"+inputfile1+"_"
-
+            var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind  -F recphylo -f uploads/"+inputfile1
             if (inputfile2 != "none") {
               commande_thirdkind = commande_thirdkind + " -g  uploads/"+ inputfile2;
+              commande_thirdkind = commande_thirdkind + " -o public/"+inputfile1+"_"
+
+            }
+            else {
+              commande_thirdkind = commande_thirdkind + " -o public/"+inputfile1+".svg"
             }
 
             if (req.body.landscape == "on") {
