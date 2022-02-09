@@ -86,7 +86,7 @@ app.post("/uploadOneXML",function (req, res, next) {
             var commande_thirdkind = thirdkind_exec + " -F recphylo -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
             if (req.body.freeliving == "on") {
               commande_thirdkind = commande_thirdkind + " -e ";
-              req.body.freeliving == "checked";
+              req.body.freeliving = "checked";
             }
             console.log(commande_thirdkind);
             exec(commande_thirdkind, (error, stdout, stderr) => {
@@ -128,7 +128,7 @@ app.post("/uploadTwoXML", function (req, res, next) {
               var commande_thirdkind = thirdkind_exec + " -F recphylo -f uploads/"+req.files[0].filename+ " -g uploads/"+req.files[1].filename+ " -o public/"+req.files[0].filename+"_";
               if (req.body.freeliving == "on") {
                 commande_thirdkind = commande_thirdkind + " -e ";
-                req.body.freeliving == "checked";
+                req.body.freeliving = "checked";
               }
               console.log(commande_thirdkind);
               exec(commande_thirdkind, (error, stdout, stderr) => {
