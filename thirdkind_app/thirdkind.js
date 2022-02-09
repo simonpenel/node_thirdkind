@@ -13,7 +13,8 @@ app.set("partials",path.join(__dirname,"partials"))
 app.set("view engine","ejs")
 app.use(express.static(path.join(__dirname, 'public')));
 
-const thirdkind_exec = "/home/simon/.cargo/bin/thirdkind";
+// const thirdkind_exec = "/home/simon/.cargo/bin/thirdkind";
+const thirdkind_exec = "thirdkind";
 
 //  STORAGE DEFINITION
 //  -----------------
