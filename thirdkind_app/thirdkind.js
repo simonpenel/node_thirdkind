@@ -108,7 +108,7 @@ app.post("/uploadOneXML",function (req, res, next) {
                   if (fileSizeInBytes > 70000) {
                     affichage = 'The SVG is very big. Download it <a href='+req.file.filename+'.svg target=_blank>here</a>';
                   }
-                res.render("Display" ,{ path1: req.file.filename ,path2: "none", speciespolice:"25", genepolice:"12", message: 'Hello there!', options:req.body,affichage:affichage});
+                res.render("Display" ,{ path1: req.file.filename ,path2: "none", options:req.body,affichage:affichage});
                 }
             });
         }
@@ -155,8 +155,7 @@ app.post("/uploadTwoXML", function (req, res, next) {
                     affichage =  affichage +  "First mapped file is displayed above:<br><img src="+req.files[0].filename+"_thirdkind_mapped_1.svg >" ;
 
 
-                    res.render("Display" ,{ path1: req.files[0].filename ,path2: req.files[1].filename ,speciespolice:"25", genepolice:"12",
-                     message: 'Hello there!', options:req.body,affichage:affichage});
+                    res.render("Display" ,{ path1: req.files[0].filename ,path2: req.files[1].filename, options:req.body,affichage:affichage});
                   }
               });
     console.log(req.files[0].filename);
@@ -276,7 +275,7 @@ app.post("/uploadPreferences",function (req, res, next) {
                       affichage =  affichage +  "First mapped file is displayed above:<br><img src="+inputfile1+"_thirdkind_mapped_1.svg >" ;
                     }
                   }
-                  res.render("Display" ,{ path1: inputfile1, path2:inputfile2, speciespolice:req.body.speciespolice, genepolice:req.body.genepolice, options: req.body, affichage: affichage});
+                  res.render("Display" ,{ path1: inputfile1, path2:inputfile2, options: req.body, affichage: affichage});
                 }
             });
         }
