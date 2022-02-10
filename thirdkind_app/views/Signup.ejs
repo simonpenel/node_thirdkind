@@ -28,7 +28,12 @@ Contact :
       enctype="multipart/form-data" method="POST">
 
         <span>Upload a recPhyloXML file:</span>
-        <input type="file" name="mypic" required/> <br>
+        <input type="file" name="mypic" required/>
+        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_gene_symbiote.recphylo" download="example_gene_symbiote.recphylo" target=_blank>
+        Simple example</a><br>
+        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_free_living.recphylo" download  target=_blank>
+        Free living example</a><br>
+
         <!-- <input type="checkbox" id="landcsape" name="landscape"> -->
         <!-- <label for="landcsape">landcsape</label> -->
         <input type="checkbox" id="freeliving" name="freeliving">
@@ -50,17 +55,23 @@ Contact :
 
 
         <span>Upload Symbiote-Host reconciliation:</span><br>
-        <input type="file" name="mypic_2" required/><br>
+        <input type="file" name="mypic_2" required/>
+        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_symbiote_host.recphylo"  download target=_blank>
+        Symbiote-Host example</a><br><br>
         <span>Upload Gene-Symbiote reconciliation:</span><br>
-        <input type="file" name="mypic_2" required/><br>
-        <!-- <input type="checkbox" id="landcsape" name="landscape"> -->
-        <!-- <label for="landcsape">landcsape</label> -->
+        <input type="file" name="mypic_2" required/>
+        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_gene_symbiote.recphylo"  download  target=_blank>
+        Gene-Symbiote example</a><br>
         <input type="checkbox" id="freeliving" name="freeliving">
         <label for="freeliving">Check this box if the reconciliation presents "Free living"
            organisms</label>
         <br>
         <input type="submit" value="Generate SVG">
     </form>
-</body>
+<h2>Other examples</h2>
+<code>Input xml files should be saved as raw text.</code><br>
 
+<a href="https://github.com/simonpenel/node_thirdkind/tree/master/input_examples"   target=_blank>Simple examples</a><br>
+<a href="https://github.com/simonpenel/thirdkind/tree/master/recphylo_examples"   target=_blank>Various thirdkind examples</a><br>
+</body>
 </html>
