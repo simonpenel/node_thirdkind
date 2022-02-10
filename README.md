@@ -6,7 +6,7 @@ a node server for thirdkind
 
 `cd thirdkind_app`
 
-`npm installation`
+`npm install`
 
 # Launch server
 `npm start`
