@@ -50,4 +50,3 @@ Removing files older than 1 hour
 
 `find thirdkind_app/public/  -name "mypic*" -type f -mmin +59 -delete`
 
-pm2 start thirdkind.js
