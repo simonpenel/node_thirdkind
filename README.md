@@ -1,13 +1,12 @@
-# node_thirdkind
-a node server for thirdkind
-
-
-# For Rust:
-`sudo apt install build-essential`
+# Thirdkind node server
+This is a node server for [thirdkind](https://github.com/simonpenel/thirdkind/wiki)
 
 # Install node
 `curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -`
 `sudo apt install -y nodejs`
+
+# Install essential build needed by Rust:
+`sudo apt install build-essential`
 
 # Install cargo and Rust:
 
@@ -35,7 +34,7 @@ test:
 
 `npm install`
 
-# Lauch server
+# Launch server
 
 `pm2 start thirdkind.js` (production)
 
