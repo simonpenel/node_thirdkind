@@ -107,7 +107,7 @@ app.post("/uploadOneXML",function (req, res, next) {
                   var stats = fs.statSync("public/"+req.file.filename+".svg");
                   var fileSizeInBytes = stats.size;
                   if (fileSizeInBytes > 70000) {
-                    affichage = 'The SVG is very big. Download it <a href='+req.file.filename+'.svg target=_blank>here</a>';
+                    affichage = '<br>The generated SVG is not displayed because it is very big. Instead, the SVG is available  <a href='+req.file.filename+'.svg target=_blank>here</a>';
                   }
                 res.render("Display" ,{ path1: req.file.filename ,path2: "none", options:req.body,affichage:affichage});
                 }
@@ -260,7 +260,7 @@ app.post("/uploadPreferences",function (req, res, next) {
                     var stats = fs.statSync("public/"+inputfile1+".svg");
                     var fileSizeInBytes = stats.size;
                     if (fileSizeInBytes > 70000) {
-                      affichage = 'The SVG is very big. Download it <a href='+inputfile1+'.svg target=_blank>here</a>';
+                      affichage = '<br>The generated SVG is not displayed because it is very big. Instead, the SVG is available <a href='+inputfile1+'.svg target=_blank>here</a>';
                     }
                   }
                   else {
