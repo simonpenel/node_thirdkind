@@ -22,6 +22,9 @@
     document.getElementById("genenode").checked = false;
     document.getElementById("landcsape").checked = false;
     document.getElementById("usetransfert").checked = false;
+    document.getElementById("tidy").checked = false;
+    document.getElementById("usebrlength").checked = false;
+    document.getElementById("displen").checked = false;
 
   }
 </script>
@@ -39,29 +42,37 @@
       enctype="multipart/form-data" method="POST">
     <input type = "hidden" name="uploaded1" value="<%= path1 %>"/> <br>
     <input type = "hidden" name="uploaded2" value="<%= path2 %>"/> <br>
+    <input type = "hidden" name="format" value="<%= format %>"/> <br>
 
         <input type="checkbox" id="landcsape" name="landscape" <%= options.landscape %> >
         <label for="landcsape">Landscape</label>
 
         <input type="checkbox" id="freeliving" name="freeliving" <%= options.freeliving %> >
-        <label for="freeliving">Free living</label><br>
+        <label for="freeliving">Free living<sup>(1)</sup></label> <br>
 
         <input type="checkbox" id="speciesnode" name="speciesnode" <%= options.speciesnode %> >
-        <label for="speciesnode">Internal species nodes</label>
+        <label for="speciesnode">Internal species nodes<sup>(1)</sup></label>
 
         <input type="checkbox" id="genenode" name="genenode" <%= options.genenode %> >
         <label for="genenode">Internal gene nodes</label> <br>
 
         <input type="checkbox" id="usebrlength" name="usebrlength" <%= options.usebrlength %> >
         <label for="speciesnode">Use branch length</label>
-        <input type="text" name="facbrlength" minlength="1" maxlength="3" size=1 value="<%= options.facbrlength %>"/><br>
+        <input type="text" name="facbrlength" minlength="1" maxlength="3" size=1 value="<%= options.facbrlength %>"/>
+
+        <input type="checkbox" id="displen" name="displen" <%= options.displen %> >
+        <label for="freeliving">Display length branch</label><br>
+
+        <input type="checkbox" id="tidy" name="tidy" <%= options.tidy %> >
+        <label for="freeliving">Tidy tree mode<sup>(2)</sup></label>
+
 
         <input type="checkbox" id="usetransfert" name="usetransfert" <%= options.usetransfert %> >
-        <label for="usetransfert">Redudant transfert mode</label>
+        <label for="usetransfert">Redudant transfert mode<sup>(1)</sup></label>
         <input type="text" name="thrtransfert" minlength="1" maxlength="3" size=1 value="<%= options.thrtransfert %>"/><br>
 
 
-        <label for="speciespolice">Species police</label>
+        <label for="speciespolice">Species police<sup>(1)</sup></label>
         <input type="text" name="speciespolice" minlength="1" maxlength="3" size=1 value="<%= options.speciespolice %>"/>
         <label for="speciespolice">Gene police</label>
         <input type="text" name="genepolice" minlength="1" maxlength="3" size=1 value="<%= options.genepolice %>"/> <br>
@@ -76,6 +87,9 @@
         <input type="submit" value="submit">
         <input type="button" value="reset" onClick="resetForm(); return false;">
     </form>
+    <br>
+    <Code>(1) recphyloxml format only</code><br>
+    <Code>(2) not yet available fo recphyloxml format</code><br>
 
     <%- affichage %>
 </body>

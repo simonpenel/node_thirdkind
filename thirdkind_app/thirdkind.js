@@ -19,16 +19,16 @@ const thirdkind_exec = "thirdkind";
 //  STORAGE DEFINITION
 //  -----------------
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        // Uploads is the Upload_folder_name
-        cb(null, "uploads")
-    },
-    filename: function (req, file, cb) {
-      var ipfields = req.ip.split(':');
-      var userIp = ipfields[ipfields.length - 1]
-            cb(null, file.fieldname + "_" + Date.now()+"_"+userIp+"_"+file.originalname.replace(/\s/g, '_'))
-    }
-  })
+  destination: function (req, file, cb) {
+    // Uploads is the Upload_folder_name
+    cb(null, "uploads")
+  },
+  filename: function (req, file, cb) {
+    var ipfields = req.ip.split(':');
+    var userIp = ipfields[ipfields.length - 1]
+    cb(null, file.fieldname + "_" + Date.now()+"_"+userIp+"_"+file.originalname.replace(/\s/g, '_'))
+  }
+})
 
 // Define the maximum size for uploading
 // picture i.e. 1 MB. it is optional
@@ -40,13 +40,13 @@ var upload = multer({
     storage: storage,
     limits: { fileSize: maxSize },
     fileFilter: function (req, file, cb){
-      var filetypes = /recphyloxml|phyloxml|recphylo|xml/;
+      var filetypes = /recphyloxml|phyloxml|recphylo|xml|nhx/;
       var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
       if (extname) {
         return cb(null, true);
       }
       else {
-        cb("Error: Thirdkind server supports the recPhyloXML format only. Please use one of the following extensions : " + filetypes);
+        cb("Error: Thirdkind server supports the recPhyloXML, phyloXML or newick format only. Please use one of the following extensions : " + filetypes);
       }
     }
 }).single("mypic");
@@ -77,10 +77,10 @@ app.get("/",function(req,res){
 // UPLOAD 1 RECPHYLOXML FILE
 //  ------------------------
 app.post("/uploadOneXML",function (req, res, next) {
-    upload(req,res,function(err) {
-        if(err) {
-            res.render("InputError" ,{ message: err});
-        }
+  upload(req,res,function(err) {
+    if(err) {
+      res.render("InputError" ,{ message: err});
+    }
         else {
             const { exec } = require("child_process");
             // var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind -F recphylo -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
@@ -95,22 +95,22 @@ app.post("/uploadOneXML",function (req, res, next) {
               console.log(stderr);
               if (error) {
                 console.log(`error: ${error.message}`);                // if (stderr) {
-                  res.render("Error" ,{ message: error.message,path1: req.file.filename,path2: "none", options:req.body });
+                res.render("Error" ,{ message: error.message,path1: req.file.filename,path2: "none", options:req.body });
+              }
+              else {
+                console.log(`stdout: ${stdout}`);
+                req.body.speciespolice="25";
+                req.body.genepolice="12";
+                req.body.width="1.0";
+                req.body.height="1.0";
+                var affichage =    "<img src="+req.file.filename+".svg >" ;
+                var stats = fs.statSync("public/"+req.file.filename+".svg");
+                var fileSizeInBytes = stats.size;
+                if (fileSizeInBytes > 70000) {
+                  affichage = '<br>The generated SVG is not displayed because it is very big. Instead, the SVG is available  <a href='+req.file.filename+'.svg target=_blank>here</a>';
                 }
-                else {
-                  console.log(`stdout: ${stdout}`);
-                  req.body.speciespolice="25";
-                  req.body.genepolice="12";
-                  req.body.width="1.0";
-                  req.body.height="1.0";
-                  var affichage =    "<img src="+req.file.filename+".svg >" ;
-                  var stats = fs.statSync("public/"+req.file.filename+".svg");
-                  var fileSizeInBytes = stats.size;
-                  if (fileSizeInBytes > 70000) {
-                    affichage = '<br>The generated SVG is not displayed because it is very big. Instead, the SVG is available  <a href='+req.file.filename+'.svg target=_blank>here</a>';
-                  }
-                res.render("Display" ,{ path1: req.file.filename ,path2: "none", options:req.body,affichage:affichage});
-                }
+                res.render("Display" ,{ path1: req.file.filename ,path2: "none", options:req.body,affichage:affichage,format:"recphylo"});
+              }
             });
         }
     })
@@ -119,8 +119,8 @@ app.post("/uploadOneXML",function (req, res, next) {
 // UPLOAD 2 RECPHYLOXML FILES
 //  -------------------------
 app.post("/uploadTwoXML", function (req, res, next) {
-    multi_upload(req,res,function(err) {
-            if(err) {
+  multi_upload(req,res,function(err) {
+    if(err) {
                 res.render("InputError" ,{ message: err})
             }
             else {
@@ -156,7 +156,7 @@ app.post("/uploadTwoXML", function (req, res, next) {
                     affichage =  affichage +  "First mapped file is displayed above:<br><img src="+req.files[0].filename+"_thirdkind_mapped_1.svg >" ;
 
 
-                    res.render("Display" ,{ path1: req.files[0].filename ,path2: req.files[1].filename, options:req.body,affichage:affichage});
+                    res.render("Display" ,{ path1: req.files[0].filename ,path2: req.files[1].filename, options:req.body,affichage:affichage,format:"recphylo"});
                   }
               });
     console.log(req.files[0].filename);
@@ -181,8 +181,12 @@ app.post("/uploadPreferences",function (req, res, next) {
             const { exec } = require("child_process");
             inputfile1 = req.body.uploaded1;
             inputfile2 = req.body.uploaded2;
+            format = req.body.format;
 
-            var commande_thirdkind = thirdkind_exec + " -F recphylo -f uploads/"+inputfile1
+            var commande_thirdkind = thirdkind_exec + " -f uploads/"+inputfile1
+            if (format != "newick") {
+            commande_thirdkind = commande_thirdkind +  " -F "+format
+            }
             if (inputfile2 != "none") {
               commande_thirdkind = commande_thirdkind + " -g  uploads/"+ inputfile2;
               commande_thirdkind = commande_thirdkind + " -o public/"+inputfile1+"_"
@@ -196,6 +200,17 @@ app.post("/uploadPreferences",function (req, res, next) {
               commande_thirdkind = commande_thirdkind + " -L";
               req.body.landscape = "checked";
             }
+            if (req.body.tidy == "on") {
+              commande_thirdkind = commande_thirdkind + " -X";
+              req.body.tidy = "checked";
+            }
+
+            if (req.body.displen == "on") {
+              commande_thirdkind = commande_thirdkind + " -B";
+              req.body.displen = "checked";
+            }
+
+
             if (req.body.freeliving == "on") {
               commande_thirdkind = commande_thirdkind + " -e";
               req.body.freeliving = "checked";
@@ -212,7 +227,7 @@ app.post("/uploadPreferences",function (req, res, next) {
               if (req.body.facbrlength == "") {
                 req.body.facbrlength = "1.0";
               }
-              commande_thirdkind = commande_thirdkind + " -B -l "+req.body.facbrlength ;
+              commande_thirdkind = commande_thirdkind + " -l "+req.body.facbrlength ;
               req.body.usebrlength = "checked"
             }
             if (req.body.usetransfert == "on") {
@@ -277,6 +292,86 @@ app.post("/uploadPreferences",function (req, res, next) {
                     }
                   }
                   res.render("Display" ,{ path1: inputfile1, path2:inputfile2, options: req.body, affichage: affichage});
+                }
+            });
+        }
+    })
+})
+
+
+
+// UPLOAD 1 NEWICK FILE
+//  ------------------------
+app.post("/upload_newick",function (req, res, next) {
+    upload(req,res,function(err) {
+        if(err) {
+            res.render("InputError" ,{ message: err});
+        }
+        else {
+            const { exec } = require("child_process");
+            // var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind -F recphylo -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
+            var commande_thirdkind = thirdkind_exec + " -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
+            console.log(commande_thirdkind);
+            exec(commande_thirdkind, (error, stdout, stderr) => {
+              console.log(stdout);
+              console.log(stderr);
+              if (error) {
+                console.log(`error: ${error.message}`);                // if (stderr) {
+                  res.render("Error" ,{ message: error.message,path1: req.file.filename,path2: "none", options:req.body });
+                }
+                else {
+                  console.log(`stdout: ${stdout}`);
+                  req.body.speciespolice="25";
+                  req.body.genepolice="12";
+                  req.body.width="1.0";
+                  req.body.height="1.0";
+                  var affichage =    "<img src="+req.file.filename+".svg >" ;
+                  var stats = fs.statSync("public/"+req.file.filename+".svg");
+                  var fileSizeInBytes = stats.size;
+                  if (fileSizeInBytes > 70000) {
+                    affichage = '<br>The generated SVG is not displayed because it is very big. Instead, the SVG is available  <a href='+req.file.filename+'.svg target=_blank>here</a>';
+                  }
+                res.render("Display" ,{ path1: req.file.filename ,path2: "none", options:req.body,affichage:affichage, format:"newick"});
+                }
+            });
+        }
+    })
+})
+
+
+
+// UPLOAD 1 PHYLOXML FILE
+//  ------------------------
+app.post("/upload_phyloxml",function (req, res, next) {
+    upload(req,res,function(err) {
+        if(err) {
+            res.render("InputError" ,{ message: err});
+        }
+        else {
+            const { exec } = require("child_process");
+            // var commande_thirdkind = "/home/simon/.cargo/bin/thirdkind -F recphylo -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
+            var commande_thirdkind = thirdkind_exec + " -F phyloxml -f uploads/"+req.file.filename+ " -o public/"+req.file.filename+".svg"
+            console.log(commande_thirdkind);
+            exec(commande_thirdkind, (error, stdout, stderr) => {
+              console.log(stdout);
+              console.log(stderr);
+              if (error) {
+                console.log(`error: ${error.message}`);                // if (stderr) {
+                  res.render("Error" ,{ message: error.message,path1: req.file.filename,path2: "none", options:req.body });
+                }
+                else {
+                  console.log(`stdout: ${stdout}`);
+                  req.body.speciespolice="25";
+                  req.body.genepolice="12";
+                  req.body.width="1.0";
+                  req.body.height="1.0";
+                  var affichage =    "<img src="+req.file.filename+".svg >" ;
+                  var stats = fs.statSync("public/"+req.file.filename+".svg");
+                  var fileSizeInBytes = stats.size;
+                  if (fileSizeInBytes > 70000) {
+                    affichage = '<br>The generated SVG is not displayed because it is very big. Instead, the SVG is available  <a href='+req.file.filename+'.svg target=_blank>here</a>';
+                  }
+                res.render("Display" ,{ path1: req.file.filename ,path2: "none", options:req.body,affichage:affichage, format:"phyloxml"});
                 }
             });
         }

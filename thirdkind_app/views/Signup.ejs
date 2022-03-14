@@ -2,76 +2,98 @@
 <html>
 
 <head>
-<%- include ("../partials/head") %>
+  <%- include ("../partials/head") %>
 </head>
 
 <body>
 <%- include ("../partials/header") %>
-<p class="lead">
-Drawing reconciled phylogenetic trees allowing 1, 2 or 3 reconciliation levels.<br>
-</p>
-This is a web server dedicated to  <i>thirdkind</i>.<br>
-You can get the command line version
-<a href=https://github.com/simonpenel/thirdkind target=_blank>here</a>.
-<br>
-For documentation and help, see
-<a href=https://github.com/simonpenel/thirdkind/wiki target=_blank> this page</a>.
+
+<h1>Drawing reconciled phylogenetic trees allowing 1, 2 or 3 reconciliation levels.</h1><br>
+
+
+This web server allows you to visualise reconciliations described in recPhyloXML files.
+It relies on the <a href=https://github.com/simonpenel/thirdkind target=_blank>thirdkind</a> application.
 <br>
 
-Contact :
-<a href="https://lbbe.univ-lyon1.fr/fr/annuaire-des-membres/penel-simon">
-  simon.penel at univ-lyon1.fr</a>
+For documentation and help, see <a href=https://github.com/simonpenel/thirdkind/wiki target=_blank> this page</a>.
+<br>
 
-    <h2>Single File Upload : 2-level reconciliation </h2>
+Contact : <a href="https://lbbe.univ-lyon1.fr/fr/annuaire-des-membres/penel-simon"> simon.penel at univ-lyon1.fr</a>
+<br>
 
-    <form action="/uploadOneXML"
-      enctype="multipart/form-data" method="POST">
+<hr />
 
-        <span>Upload a recPhyloXML file:</span>
-        <input type="file" name="mypic" required/>
-        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_gene_symbiote.recphylo" download="example_gene_symbiote.recphylo" target=_blank>
-        Simple example</a><br>
-        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_free_living.recphylo" download  target=_blank>
-        Free living example</a><br>
+<h2>Single File Upload : 2-level reconciliation </h2>
 
-        <!-- <input type="checkbox" id="landcsape" name="landscape"> -->
-        <!-- <label for="landcsape">landcsape</label> -->
-        <input type="checkbox" id="freeliving" name="freeliving">
-        <label for="freeliving">Check this box if the reconciliation presents "Free living"
-           organisms</label>
-        <br>
-        <input type="submit" value="Generate SVG">
-    </form>
-    <br><br>
-    <h2>Two Nested Files Upload : 3-level reconciliation</h2>
+<form action="/uploadOneXML" enctype="multipart/form-data" method="POST">
+  <span>Upload a recPhyloXML file:</span>
+  <input type="file" name="mypic" required/>
+  <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_gene_symbiote.recphylo" download="example_gene_symbiote.recphylo" target=_blank>
+  Simple example</a><br>
+  <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_free_living.recphylo" download  target=_blank>
+  Free living example</a><br>
+  <input type="checkbox" id="freeliving" name="freeliving">
+  <label for="freeliving">Check this box if the reconciliation presents "Free living" organisms</label>
+  <br>
 
-    <form action="/uploadTwoXML"
-      enctype="multipart/form-data" method="POST">
+  <input type="submit" value="Generate SVG">
+</form>
+<hr />
 
-      <!-- <label for='file'>Select your image:</label>
-      <input type='file' accept='image/*' name='uploadedImages' multiple/>
-      <span class='hint'>Supported files: jpg, jpeg, png.</span>
-      <input type="submit" value="uploading_img"> -->
+<h2>Two Nested Files Upload : 3-level reconciliation</h2>
 
+<form action="/uploadTwoXML"
+  enctype="multipart/form-data" method="POST">
+  <span>Upload Symbiote-Host reconciliation recPhyloXML file:</span>
 
-        <span>Upload Symbiote-Host reconciliation:</span><br>
-        <input type="file" name="mypic_2" required/>
-        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_symbiote_host.recphylo"  download target=_blank>
-        Symbiote-Host example</a><br><br>
-        <span>Upload Gene-Symbiote reconciliation:</span><br>
-        <input type="file" name="mypic_2" required/>
-        <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_gene_symbiote.recphylo"  download  target=_blank>
-        Gene-Symbiote example</a><br>
-        <input type="checkbox" id="freeliving" name="freeliving">
-        <label for="freeliving">Check this box if the reconciliation presents "Free living"
-           organisms</label>
-        <br>
-        <input type="submit" value="Generate SVG">
-    </form>
+  <br>
+  <input type="file" name="mypic_2" required/>
+  <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_symbiote_host.recphylo"  download target=_blank>
+  Symbiote-Host example</a>
+
+  <br>
+  <br>
+  <span>Upload Gene-Symbiote reconciliation recPhyloXML file:</span><br>
+  <input type="file" name="mypic_2" required/>
+  <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/example_gene_symbiote.recphylo"  download  target=_blank>
+  Gene-Symbiote example</a><br>
+  <input type="checkbox" id="freeliving" name="freeliving">
+  <label for="freeliving">Check this box if the reconciliation presents "Free living" organisms</label>
+  <br>
+
+  <input type="submit" value="Generate SVG">
+</form>
+
+<hr />
+
+<h2>PhyloXML format</h2>
+
+<form action="/upload_phyloXML" enctype="multipart/form-data" method="POST">
+    <span>Upload a phyloXML file:</span>
+    <input type="file" name="mypic" required/>
+    <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/FAM036542_gene.xml"  target=_blank>
+    Reconciled tree example</a><br>
+    <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/apaf.xml"  target=_blank>
+    Branch length example</a><br>
+    <input type="submit" value="Generate SVG">
+</form>
+
+<hr />
+<h2>Newick format</h2>
+<form action="/upload_newick" enctype="multipart/form-data" method="POST">
+    <span>Upload a newick file:</span>
+    <input type="file" name="mypic" required/>
+    <a href="https://raw.githubusercontent.com/simonpenel/node_thirdkind/master/input_examples/virus.nhx" download="example_gene_symbiote.recphylo" target=_blank>
+    Simple example</a><br>
+    <input type="submit" value="Generate SVG">
+</form>
+<hr />
+
 <h2>Other examples</h2>
 <code>Warning! Input xml files should be saved as raw text and not as html.</code><br>
 
 <a href="https://github.com/simonpenel/node_thirdkind/tree/master/input_examples"   target=_blank>Simple examples</a><br>
 <a href="https://github.com/simonpenel/thirdkind/tree/master/recphylo_examples"   target=_blank>Various thirdkind examples</a><br>
+
 </body>
 </html>
